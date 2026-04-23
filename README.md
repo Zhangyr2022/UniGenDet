@@ -1,6 +1,6 @@
 <p align="center">
   <h1 align="center">UniGenDet</h1>
-  <h3 align="center"><b>A Unified Generative-Discriminative Framework for Co-Evolutionary Image Generation and Generated Image Detection</b></h3>
+  <h2 align="center"><b>A Unified Generative-Discriminative Framework for Co-Evolutionary Image Generation and Generated Image Detection</b></h2>
 </p>
 
 <p align="center">
@@ -20,7 +20,7 @@
   <sup>*</sup>Corresponding author &nbsp;&nbsp; <sup>†</sup>Project leader
 </p>
 
-<p align="center"><b>CVPR 2026</b></p>
+<h2 align="center"><b>CVPR 2026</b></h2>
 
 <p align="center">
   <a href="https://github.com/Zhangyr2022/UniGenDet"><img src="https://img.shields.io/badge/GitHub-Code-black?logo=github" alt="Code"></a>
