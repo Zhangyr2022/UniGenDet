@@ -1,47 +1,49 @@
 <p align="center">
   <h1 align="center">UniGenDet</h1>
-  <p align="center"><b>Unified Generative-Discriminative Co-Evolution for Image Generation and Generated Image Detection</b></p>
+  <h3 align="center"><b>A Unified Generative-Discriminative Framework for Co-Evolutionary Image Generation and Generated Image Detection</b></h3>
 </p>
 
 <p align="center">
-  <a href="https://github.com/Zhangyr2022/UniGenDet"><img src="https://img.shields.io/badge/Code-GitHub-black?logo=github" alt="GitHub"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Paper-ArXiv-red?logo=arxiv" alt="Paper"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache--2.0-blue" alt="License"></a>
+  <b>
+    <a href="https://github.com/Zhangyr2022/">Yanran Zhang</a>,
+    <a href="https://wzzheng.net/#">Wenzhao Zheng</a><sup>†</sup>,
+    <a href="https://joeleelyf.github.io/">Yifei Li</a>,
+    <a href="https://yuby14.github.io/">Bingyao Yu</a>,
+    <a href="https://yzheng97.github.io/">Yu Zheng</a>,
+    <a href="https://leichenthu.github.io/">Lei Chen</a>,
+    <a href="https://scholar.google.com/citations?user=6a79aPwAAAAJ&hl=en">Jie Zhou</a><sup>*</sup>,
+    <a href="https://ivg.au.tsinghua.edu.cn/Jiwen_Lu/">Jiwen Lu</a>
+  </b>
+  <br/>
+  Department of Automation, Tsinghua University, China
+  <br/>
+  <sup>*</sup>Corresponding author &nbsp;&nbsp; <sup>†</sup>Project leader
+</p>
+
+<p align="center"><b>CVPR 2026</b></p>
+
+<p align="center">
+  <a href="https://github.com/Zhangyr2022/UniGenDet"><img src="https://img.shields.io/badge/GitHub-Code-black?logo=github" alt="Code"></a>
+  <a href="https://arxiv.org/abs/2512.05044"><img src="https://img.shields.io/badge/arXiv-Paper-b31b1b.svg?logo=arxiv&logoColor=white" alt="Paper"></a>
+  <a href="https://ivg-yanranzhang.github.io/UniGenDet/"><img src="https://img.shields.io/badge/Project-Website-blue?logo=googlechrome&logoColor=white" alt="Project"></a>
+  <a href="https://huggingface.co/ByteDance-Seed/BAGEL-7B-MoT"><img src="https://img.shields.io/badge/HuggingFace-Models-yellow" alt="Models"></a>
+</p>
+
+<p align="center">
+  <img src="assets/teaser.png" width="100%" alt="UniGenDet Teaser"/>
 </p>
 
 ## Overview
 
-Image generation and generated-image detection have advanced rapidly, but mostly along separate technical trajectories. Generators optimize perceptual realism, while detectors optimize discriminative robustness. This separation creates a persistent lag: detectors overfit to transient artifacts, and generators are not explicitly constrained by forensic criteria.
+Image generation and generated-image detection have both advanced rapidly, but mostly along separate technical paths: generation is dominated by generative architectures, while detection is dominated by discriminative ones. This separation creates a persistent gap in practice: generators are not directly optimized by forensic criteria, and detectors are often trained on static snapshots of old forgeries, which limits robustness to new generators.
 
-**UniGenDet** addresses this gap by introducing a unified generative-discriminative framework where generation and detection are co-optimized in a closed loop:
+UniGenDet addresses this gap with a unified co-evolutionary framework that jointly optimizes generation and detection in one loop. The core idea is to make both tasks explicitly exchange useful signals instead of evolving independently.
 
-- Generation improves detection by exposing generative logic and reducing distributional blind spots.
-- Detection improves generation by feeding authenticity constraints back into synthesis.
-- A unified fine-tuning pipeline enables efficient knowledge transfer between both tasks.
+- **Symbiotic multimodal self-attention** bridges generation and authenticity understanding in a shared architecture.
+- **Generation-detection unified fine-tuning (GDUF)** equips the detector with generative priors, improving generalization and interpretability.
+- **Detector-informed generative alignment (DIGA)** feeds authenticity constraints back into synthesis, improving realism and fidelity.
 
-This repository is built on top of pretrained BAGEL components and extends them for joint generation-detection co-evolution.
-
-## Highlights
-
-- Unified architecture for **image generation** and **generated-image detection** in one framework.
-- Symbiotic multimodal self-attention and detector-informed generative alignment.
-- Two practical training modes in this codebase:
-  - **DIGA**: detector-informed generative alignment.
-  - **GDUF**: generation-detection unified fine-tuning.
-- End-to-end evaluation scripts for:
-  - Detection benchmarks (`eval/det`)
-  - Generation quality and fidelity (`eval/gen`, including FID/IS)
-
-## Method at a Glance
-
-UniGenDet forms a co-evolutionary loop:
-
-1. The generator synthesizes images under multimodal conditions.
-2. The detector evaluates authenticity and provides structured supervisory signals.
-3. The generator is refined using detector-informed alignment.
-4. The detector is updated with richer generative priors and harder synthetic distributions.
-
-This iterative process jointly improves realism, detection generalization, and interpretability.
+In short, UniGenDet turns the traditional "generator vs. detector" arms race into a closed-loop collaboration. This repository provides the full training and evaluation pipeline built on pretrained BAGEL components.
 
 ## Installation
 
@@ -61,7 +63,7 @@ pip install -r requirements.txt
 
 ### 2. Prepare pretrained checkpoints
 
-Place required [pretrained BAGEL weights](https://huggingface.co/ByteDance-Seed/BAGEL-7B-MoT) in `pretrained/` directory.
+Place required pretrained BAGEL weights in `pretrained/`.
 
 ```bash
 # Optional: export HF_ENDPOINT=https://hf-mirror.com
@@ -72,15 +74,15 @@ huggingface-cli download ByteDance-Seed/BAGEL-7B-MoT --local-dir ./pretrained/ba
 
 ### 1. Download datasets
 
-我们分别使用 [Laion](https://huggingface.co/datasets/dclure/laion-aesthetics-12m-umap) 子集和 [FakeClue](https://huggingface.co/datasets/lingcco/FakeClue) 数据集进行训练和评测。请按照以下步骤准备数据：
+We use a subset of [LAION Aesthetics](https://huggingface.co/datasets/dclure/laion-aesthetics-12m-umap) and [FakeClue](https://huggingface.co/datasets/lingcco/FakeClue) for training and evaluation.
 
-首先下载laion数据：
+Build LAION-style metadata first:
 
 ```bash
 python scripts/data/laion_construction.py
 ```
 
-而后下载FakeClue数据：
+Then download FakeClue:
 
 ```bash
 # Optional: export HF_ENDPOINT=https://hf-mirror.com
@@ -89,16 +91,16 @@ huggingface-cli download lingcco/FakeClue --local-dir ./datasets/fakeclue --recu
 
 ### 2. Configure dataset paths
 
-Edit placeholders in:
+Edit path placeholders in:
 
 - `data/dataset_info.py`
-- evaluation scripts under `scripts/eval/*.sh`
+- `scripts/eval/*.sh`
 
-Use valid absolute paths on your machine (e.g., `/path/to/datasets/...`).
+Use valid absolute paths in your local environment (for example, `/path/to/datasets/...`).
 
 ### 3. Configure dataset mixture
 
-Use task YAMLs in:
+Use task YAMLs:
 
 - `data/configs/unigendet_DIGA.yaml`
 - `data/configs/unigendet_GDUF.yaml`
@@ -107,7 +109,7 @@ These files define dataset groups, sampling weights, and image transform setting
 
 ## Training
 
-Before launching, set distributed environment variables and checkpoint paths.
+Before launch, set distributed arguments and checkpoint paths according to your cluster setup.
 
 ### A. DIGA training (detector-informed generative alignment)
 
@@ -153,24 +155,25 @@ torchrun \
   --checkpoint_dir gduf
 ```
 
-### C. Script-based launching
-
-You can also adapt and run:
+### C. Script-based launch
 
 ```bash
 bash scripts/train/train_GDUF.sh
 bash scripts/train/train_DIGA.sh
 ```
 
-### D. Notes
+### D. Practical notes
 
-参数定义参考 [BAGEL](https://github.com/ByteDance-Seed/Bagel/blob/main/TRAIN.md#training-config)，仓库默认配置适用于单机8卡(每张卡80GB现存)环境。请根据实际环境调整 `--nnodes`、`--nproc_per_node` 和相关路径参数。若遇到内存不足问题，请适当降低 `--max_num_tokens` 和 `--expected_num_tokens` 等参数。
+- Argument definitions follow the [BAGEL training design](https://github.com/ByteDance-Seed/Bagel/blob/main/TRAIN.md).
+- Default recipes target a single node with 8 GPUs (80 GB VRAM each).
+- Adjust `--nnodes`, `--nproc_per_node`, and all path arguments to match your setup.
+- If you hit out-of-memory issues, reduce `--max_num_tokens`, `--expected_num_tokens`, and related token limits.
 
 ## Evaluation
 
 ### 1. Detection evaluation (FakeVLM)
 
-检测评测脚本位于 `scripts/eval/run_eval_fakevlm.sh`，它将评测UniGenDet在FakeVLM数据集上的检测性能。请确保在运行前正确配置数据路径和模型checkpoint路径。
+The detection script evaluates UniGenDet on FakeVLM.
 
 ```bash
 bash scripts/eval/run_eval_fakevlm.sh
@@ -178,7 +181,7 @@ bash scripts/eval/run_eval_fakevlm.sh
 
 ### 2. Generation evaluation on LAION-style prompts
 
-为了评测模型生成真实性，我们使用LAION-style prompts进行生成评测。相关脚本位于 `scripts/eval/run_laion.sh`，请使用与训练集不重合的LAION子集进行评测，以测试模型的泛化能力。
+Use a LAION split that does not overlap with your training subset to evaluate generalization.
 
 ```bash
 bash scripts/eval/run_laion.sh
@@ -192,15 +195,10 @@ bash scripts/eval/run_geneval.sh
 
 ## Key Implementation Notes
 
-- `max_latent_size=64` is recommended for the released BAGEL-based setup.
+- `max_latent_size=64` is recommended in the released BAGEL-based setup.
 - Ensure `num_used_data` in YAML is larger than `NUM_GPUS x NUM_WORKERS` for stable sampling.
-- If your run is for one branch only:
-  - generation-only: set `visual_und=False`
-  - detection/understanding-heavy: tune `visual_gen` accordingly
-- For debugging and memory-limited hardware, reduce:
-  - `expected_num_tokens`
-  - `max_num_tokens`
-  - `max_num_tokens_per_sample`
+- For generation-only training, set `visual_und=False`.
+- For memory-constrained debugging, reduce `expected_num_tokens`, `max_num_tokens`, and `max_num_tokens_per_sample`.
 
 ## Acknowledgement
 
@@ -208,13 +206,13 @@ This project is built upon the open-source [BAGEL](https://github.com/bytedance-
 
 ## Citation
 
-If you find this repository useful, please cite our paper:
+If you find this repository useful, please cite:
 
 ```bibtex
 @article{zhang2026unigendet,
-  title   = {UniGenDet: Unified Generative-Discriminative Framework for Co-Evolutionary Image Generation and Generated Image Detection},
-  author  = {Author List},
-  journal = {arXiv preprint arXiv:XXXX.XXXXX},
+  title   = {UniGenDet: A Unified Generative-Discriminative Framework for Co-Evolutionary Image Generation and Generated Image Detection},
+  author  = {Zhang, Yanran and Zheng, Wenzhao and Li, Yifei and Yu, Bingyao and Zheng, Yu and Chen, Lei and Zhou, Jie and Lu, Jiwen},
+  journal = {arXiv preprint arXiv},
   year    = {2026}
 }
 ```
