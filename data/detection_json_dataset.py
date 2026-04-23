@@ -20,7 +20,7 @@ class DetectionSftJSONLIterableDataset(DistributedIterableDataset):
     def __init__(
         self, dataset_name, transform, tokenizer, frame_sampler,
         data_dir_list,num_used_data,
-        json_path="/path/to/fakevlm/data_json/train.json", data_root="/path/to/datasets/Unigendet/fakevlm/train", local_rank=0, world_size=1, num_workers=8, data_status=None,
+        json_path="./datasets/fakeclue/data_json/train.json", data_root="./datasets/fakeclue/train", local_rank=0, world_size=1, num_workers=8, data_status=None,
         shuffle_lines=False,shuffle_data=True, shuffle_seed=0,
     ):
         """

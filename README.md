@@ -66,7 +66,7 @@ Place required pretrained BAGEL weights in `pretrained/`.
 
 ```bash
 # Optional: export HF_ENDPOINT=https://hf-mirror.com
-huggingface-cli download ByteDance-Seed/BAGEL-7B-MoT --local-dir ./pretrained/bagel_7b_mot --recursive
+huggingface-cli download ByteDance-Seed/BAGEL-7B-MoT --local-dir ./pretrained/bagel_7b_mot
 ```
 
 ## Data Preparation
@@ -81,11 +81,13 @@ Build LAION-style metadata first:
 python scripts/data/laion_construction.py
 ```
 
+> Note that due to some links being inaccessible, approximately half of the LAION samples cannot be downloaded. We recommend using the remaining available samples for training.
+
 Then download FakeClue:
 
 ```bash
 # Optional: export HF_ENDPOINT=https://hf-mirror.com
-huggingface-cli download lingcco/FakeClue --local-dir ./datasets/fakeclue --recursive
+huggingface-cli download lingcco/FakeClue --local-dir ./datasets/fakeclue
 ```
 
 ### 2. Configure dataset paths
@@ -176,6 +178,7 @@ bash scripts/train/train_DIGA.sh
 The detection script evaluates UniGenDet on FakeVLM.
 
 ```bash
+pip install rouge-score scikit-learn
 bash scripts/eval/run_eval_fakevlm.sh
 ```
 
@@ -184,10 +187,13 @@ bash scripts/eval/run_eval_fakevlm.sh
 Use a LAION split that does not overlap with your training subset to evaluate generalization.
 
 ```bash
+pip install pytorch-fid
 bash scripts/eval/run_laion.sh
 ```
 
 ### 3. GenEval benchmark
+
+Before running, set up the environment by referring to [BAGEL EVAL.md](https://github.com/ByteDance-Seed/Bagel/blob/main/EVAL.md#geneval).
 
 ```bash
 bash scripts/eval/run_geneval.sh

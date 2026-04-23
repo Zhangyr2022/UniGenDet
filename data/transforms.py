@@ -173,6 +173,7 @@ class ImageTransform:
         self.normalize_transform = transforms.Normalize(
             mean=image_mean, std=image_std, inplace=True
         )
+        self.stride = image_stride
 
     def __call__(self, img, img_num=1):
         img = self.resize_transform(img, img_num=img_num)

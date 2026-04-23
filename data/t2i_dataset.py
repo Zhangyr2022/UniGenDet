@@ -30,24 +30,16 @@ class T2IIterableDataset(DistributedIterableDataset):
         self.data_status = data_status
         self.data_paths = self.get_data_paths(data_dir_list, num_used_data)
 
-        # response_path = "/path/to/datasets/Unigendet/laion_inference_results/laion_inference_results.json"
-        # response_path = "/path/to/datasets/Unigendet/laion_inference_results_prompt/laion_inference_results.json"
-        # with open(response_path, 'r', encoding='utf-8') as f:
-        # response_data = json.load(f)
-        # self.response_map = {item['image_path']: item['response'] for item in response_data if item.get('response', '')}
-        with open("/path/to/datasets/Unigendet/laion/final_metadata.json", 'r', encoding='utf-8') as f:
+        with open("./datasets/laion/final_metadata.json", 'r', encoding='utf-8') as f:
             response_data = json.load(f)
             self.response_map = {item['image_path']: item['response'] for item in response_data if item.get('response', '')}
 
         self.set_epoch()
 
     def get_data_paths(self, data_dir_list, num_used_data):
-        metadata_path = "/path/to/datasets/Unigendet/laion/final_metadata.json"
+        metadata_path = "./datasets/laion/final_metadata.json"
         with open(metadata_path, 'r', encoding='utf-8') as f:
             metadata = json.load(f)
-        # meta_data_paths = []
-        # for data in metadata:
-        # meta_data_paths.append(data["image_path"])
         return list(metadata)
 
     def __iter__(self):
@@ -57,7 +49,7 @@ class T2IIterableDataset(DistributedIterableDataset):
         else:
             start_index = 0
         transform_stride = self.transform.stride
-        image_root = "/path/to/datasets/Unigendet/laion/"
+        image_root = "./datasets/laion/"
 
         print(
             f"rank-{self.local_rank} worker-{worker_id} dataset-{self.dataset_name}: "
