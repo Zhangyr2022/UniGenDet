@@ -109,7 +109,7 @@ class BagelGenerationDIGA(PreTrainedModel):
             nn.Linear(self.hidden_size//4, 2)
         )
         global_vae_model = vae_model
-        global_tokenizer = Qwen2Tokenizer.from_pretrained("/path/to/project/pretrained")
+        global_tokenizer = Qwen2Tokenizer.from_pretrained("./pretrained/bagel_7b_mot")
         global_tokenizer, new_token_ids, _ = add_special_tokens(global_tokenizer)
 
         if config.visual_gen:

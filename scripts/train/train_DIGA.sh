@@ -7,8 +7,8 @@ torchrun \
   --nnodes=1 \
   --node_rank=0 \
   --nproc_per_node=8 \
-  train/pretrain_unified_navit_generation_diga.py \
-  --dataset_config_file ./data/configs/fakevlm_generation.yaml \
+  train/pretrain_unified_navit_diga.py \
+  --dataset_config_file ./data/configs/unigendet_DIGA.yaml \
   --model_path /path/to/project/pretrained \
   --layer_module Qwen2MoTDecoderLayer \
   --max_latent_size 64 \
@@ -29,8 +29,8 @@ torchrun \
   --ema "0.95" \
   --results_dir "results_diga" \
   --save_every 150 \
-  --resume-from /path/to/project/pretrained \
   --checkpoint_dir "diga" \
   --freeze_und False \
   --freeze_vit True \
   --freeze_det True \
+  --resume-from /path/to/project/gduf_ckpt.safetensors \
