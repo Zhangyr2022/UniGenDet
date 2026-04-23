@@ -57,8 +57,7 @@ conda create -n unigendet python=3.10 -y
 conda activate unigendet
 
 pip install -r requirements.txt
-# Recommended for speed (GPU/CUDA-compatible environment required)
-# pip install flash_attn==2.5.8 --no-build-isolation
+pip install flash_attn==2.5.8 --no-build-isolation
 ```
 
 ### 2. Prepare pretrained checkpoints
@@ -111,7 +110,29 @@ These files define dataset groups, sampling weights, and image transform setting
 
 Before launch, set distributed arguments and checkpoint paths according to your cluster setup.
 
-### A. DIGA training (detector-informed generative alignment)
+
+### A. GDUF training (generation-detection unified fine-tuning)
+
+```bash
+torchrun \
+  --nnodes=1 \
+  --node_rank=0 \
+  --nproc_per_node=8 \
+  train/pretrain_unified_navit_gduf.py \
+  --dataset_config_file ./data/configs/unigendet_GDUF.yaml \
+  --model_path /path/to/project/pretrained \
+  --layer_module Qwen2MoTDecoderLayer \
+  --max_latent_size 64 \
+  --finetune_from_hf True \
+  --auto_resume True \
+  --resume-model-only True \
+  --finetune-from-ema True \
+  --lr 2e-5 \
+  --results_dir results_gduf \
+  --checkpoint_dir gduf
+```
+
+### B. DIGA training (detector-informed generative alignment)
 
 ```bash
 torchrun \
@@ -132,27 +153,6 @@ torchrun \
   --visual_und False \
   --results_dir results_diga \
   --checkpoint_dir diga
-```
-
-### B. GDUF training (generation-detection unified fine-tuning)
-
-```bash
-torchrun \
-  --nnodes=1 \
-  --node_rank=0 \
-  --nproc_per_node=8 \
-  train/pretrain_unified_navit_gduf.py \
-  --dataset_config_file ./data/configs/unigendet_GDUF.yaml \
-  --model_path /path/to/project/pretrained \
-  --layer_module Qwen2MoTDecoderLayer \
-  --max_latent_size 64 \
-  --finetune_from_hf True \
-  --auto_resume True \
-  --resume-model-only True \
-  --finetune-from-ema True \
-  --lr 2e-5 \
-  --results_dir results_gduf \
-  --checkpoint_dir gduf
 ```
 
 ### C. Script-based launch

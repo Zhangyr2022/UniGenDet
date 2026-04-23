@@ -1,3 +1,8 @@
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+cd "$REPO_ROOT" || exit 1
+export PYTHONPATH="$REPO_ROOT:${PYTHONPATH}"
+
 torchrun \
   --nnodes=1 \
   --node_rank=0 \
@@ -15,7 +20,7 @@ torchrun \
   --lr 2e-5 \
   --visual_gen True \
   --visual_und False \
-  --num_worker 1 \
+  --num_workers 1 \
   --expected_num_tokens 23000 \
   --max_num_tokens 24000 \
   --max_num_tokens_per_sample 16384 \

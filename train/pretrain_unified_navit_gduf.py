@@ -19,8 +19,6 @@ from transformers.optimization import (
     get_constant_schedule_with_warmup,
     get_cosine_with_min_lr_schedule_with_warmup,
 )
-import sys
-sys.path.append("/path/to/project")
 from data.dataset_base import DataConfig, PackedDataset, collate_wrapper
 from data.data_utils import add_special_tokens
 from modeling.autoencoder import load_ae

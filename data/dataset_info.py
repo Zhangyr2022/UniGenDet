@@ -1,5 +1,3 @@
-from .interleave_datasets import UnifiedFakeIterableDataset
-
 from .t2i_dataset import T2IIterableDataset
 from .detection_json_dataset import DetectionSftJSONLIterableDataset
 
