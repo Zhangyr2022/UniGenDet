@@ -1,0 +1,31 @@
+torchrun \
+  --nnodes=1 \
+  --node_rank=0 \
+  --nproc_per_node=8 \
+  train/pretrain_unified_navit_generation_diga.py \
+  --dataset_config_file ./data/configs/fakevlm_generation.yaml \
+  --model_path /path/to/project/pretrained \
+  --layer_module Qwen2MoTDecoderLayer \
+  --max_latent_size 64 \
+  --finetune_from_hf True \
+  --auto_resume True \
+  --resume-model-only True \
+  --finetune-from-ema True \
+  --log_every 1 \
+  --lr 2e-5 \
+  --visual_gen True \
+  --visual_und False \
+  --num_worker 1 \
+  --expected_num_tokens 23000 \
+  --max_num_tokens 24000 \
+  --max_num_tokens_per_sample 16384 \
+  --num_shard 8 \
+  --cpu_offload True \
+  --ema "0.95" \
+  --results_dir "results_diga" \
+  --save_every 150 \
+  --resume-from /path/to/project/pretrained \
+  --checkpoint_dir "diga" \
+  --freeze_und False \
+  --freeze_vit True \
+  --freeze_det True \
