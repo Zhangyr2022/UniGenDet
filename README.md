@@ -20,13 +20,13 @@
   <sup>*</sup>Corresponding author &nbsp;&nbsp; <sup>†</sup>Project leader
 </p>
 
-<h2 align="center"><b>CVPR 2026</b></h2>
+<h3 align="center"><b>CVPR 2026</b></h3>
 
 <p align="center">
   <a href="https://github.com/Zhangyr2022/UniGenDet"><img src="https://img.shields.io/badge/GitHub-Code-black?logo=github" alt="Code"></a>
-  <a href="https://arxiv.org/abs/2512.05044"><img src="https://img.shields.io/badge/arXiv-Paper-b31b1b.svg?logo=arxiv&logoColor=white" alt="Paper"></a>
+  <a href="https://arxiv.org/abs/2604."><img src="https://img.shields.io/badge/arXiv-Paper-b31b1b.svg?logo=arxiv&logoColor=white" alt="Paper"></a>
   <a href="https://ivg-yanranzhang.github.io/UniGenDet/"><img src="https://img.shields.io/badge/Project-Website-blue?logo=googlechrome&logoColor=white" alt="Project"></a>
-  <a href="https://huggingface.co/ByteDance-Seed/BAGEL-7B-MoT"><img src="https://img.shields.io/badge/HuggingFace-Models-yellow" alt="Models"></a>
+  <a href="https://huggingface.co/Yanran21/UniGenDet/"><img src="https://img.shields.io/badge/HuggingFace-Models-yellow" alt="Models"></a>
 </p>
 
 <p align="center">
@@ -218,8 +218,10 @@ If you find this repository useful, please cite:
 @article{zhang2026unigendet,
   title   = {UniGenDet: A Unified Generative-Discriminative Framework for Co-Evolutionary Image Generation and Generated Image Detection},
   author  = {Zhang, Yanran and Zheng, Wenzhao and Li, Yifei and Yu, Bingyao and Zheng, Yu and Chen, Lei and Zhou, Jie and Lu, Jiwen},
-  journal = {arXiv preprint arXiv},
-  year    = {2026}
+  journal = {CoRR},
+  volume  = {abs/2604.21904},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2604.21904},
 }
 ```
 
