@@ -9,7 +9,7 @@ import random
 import numpy as np
 import traceback
 
-from inferencer import InterleaveInferencer
+from eval.inferencer import InterleaveInferencer
 from data.transforms import ImageTransform
 from data.data_utils import pil_img2rgb, add_special_tokens
 from modeling.bagel import (

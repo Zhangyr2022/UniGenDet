@@ -2,8 +2,6 @@ import os
 import json
 import argparse
 from safetensors.torch import load_file
-import sys
-sys.path.append("/path/to/project")
 import torch
 import torch.distributed as dist
 from data.data_utils import add_special_tokens

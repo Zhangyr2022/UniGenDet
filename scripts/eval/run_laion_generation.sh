@@ -1,9 +1,15 @@
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+cd "$REPO_ROOT" || exit 1
+export PYTHONPATH="$REPO_ROOT:${PYTHONPATH}"
+
+
 set -euo pipefail
 set -x
 
-GPUS=4
+GPUS=8
 
-output_path=/path/to/project/eval_result/ablation_false_detector_laion_generation
+output_path=/path/to/project/eval_result/laion_generation
 
 # Stage 1: generate images.
 torchrun \
@@ -19,11 +25,7 @@ torchrun \
     --resolution 1024 \
     --max_latent_size 64 \
     --model-path /path/to/project/pretrained \
-    --finetune-path /path/to/project/ablation_bad_detectorresults_train_fakevlm_ema0.99_label_balanced_generation_latent_gen_repa_0_layer/0001000/ema.safetensors
-    # --finetune-path /path/to/project/results_train_fakevlm_ema0.99_label_balanced_generation_latent_gen_repa_last_layer/0001400/0001400/ema.safetensors
-    # --finetune-path /path/to/project/pretrained/ema.safetensors
-    # --finetune-path /path/to/project/results_train_fakevlm_ema0.99_label_balanced_generation_latent/0000800/ema.safetensors
-    # --finetune-path /path/to/project/results_train_fakevlm_ema0.99_label_balanced_generation_latent_gen_repa_0_layer/0001500/ema.safetensors
+    --finetune-path /path/to/project/ema.safetensors
 
 # Stage 2: compute FID/IS from generated results.
 python eval/gen/fid_compute.py \

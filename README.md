@@ -24,9 +24,9 @@
 
 <p align="center">
   <a href="https://github.com/Zhangyr2022/UniGenDet"><img src="https://img.shields.io/badge/GitHub-Code-black?logo=github" alt="Code"></a>
-  <a href="https://arxiv.org/abs/2604."><img src="https://img.shields.io/badge/arXiv-Paper-b31b1b.svg?logo=arxiv&logoColor=white" alt="Paper"></a>
+  <a href="https://arxiv.org/abs/2604.21904v1"><img src="https://img.shields.io/badge/arXiv-Paper-b31b1b.svg?logo=arxiv&logoColor=white" alt="Paper"></a>
   <a href="https://ivg-yanranzhang.github.io/UniGenDet/"><img src="https://img.shields.io/badge/Project-Website-blue?logo=googlechrome&logoColor=white" alt="Project"></a>
-  <a href="https://huggingface.co/Yanran21/UniGenDet/"><img src="https://img.shields.io/badge/HuggingFace-Models-yellow" alt="Models"></a>
+  <a href="https://www.modelscope.cn/models/YanranZhang/UniGenDet/summary"><img src="https://img.shields.io/badge/HuggingFace-Models-yellow" alt="Models"></a>
 </p>
 
 <p align="center">
@@ -67,6 +67,43 @@ Place required pretrained BAGEL weights in `pretrained/`.
 ```bash
 # Optional: export HF_ENDPOINT=https://hf-mirror.com
 huggingface-cli download ByteDance-Seed/BAGEL-7B-MoT --local-dir ./pretrained/bagel_7b_mot
+```
+
+
+## Unified Demo 🔥
+
+The repository provides [demo.py](./demo.py) for two interactive modes:
+
+- `t2i`: text-to-image generation
+- `detection`: input a real/fake image and output a detection sentence
+
+### Quick examples
+
+Parameter notes:
+
+- `--model_path`: directory of the base BAGEL pretrained assets (e.g., `llm_config.json`, `vit_config.json`, `ae.safetensors`, tokenizer files).
+- `--ckpt_path`: path to your fine-tuned checkpoint. You can pass a single `.safetensors`, an index json, or a checkpoint directory containing all sharded files.
+
+Text-to-image:
+
+```bash
+python demo.py \
+  --mode t2i \
+  --model_path ./pretrained/bagel_7b_mot \
+  --ckpt_path /path/to/your_sharded_ckpt_dir  \
+  --prompt "A cinematic portrait of a snow fox under moonlight" \
+  --resolution 1024 \
+  --output_dir ./results/demo
+```
+
+AI-Generated Image Detection (checkpoint directory path):
+
+```bash
+python demo.py \
+  --mode detection \
+  --model_path ./pretrained/bagel_7b_mot \
+  --ckpt_path /path/to/your_sharded_ckpt_dir \
+  --image ./assets/example.jpg
 ```
 
 ## Data Preparation
