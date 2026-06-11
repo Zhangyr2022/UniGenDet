@@ -23,7 +23,7 @@ torchrun \
   --expected_num_tokens 32768 \
   --max_num_tokens 35000 \
   --max_num_tokens_per_sample 16384 \
-  --num_shard 6 \
+  --num_shard 8 \
   --cpu_offload True \
   --ema "0.99" \
   --results_dir "results_gduf" \
