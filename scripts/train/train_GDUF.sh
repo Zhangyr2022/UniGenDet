@@ -7,7 +7,7 @@ export PYTHONPATH="$REPO_ROOT:${PYTHONPATH}"
 torchrun \
   --nnodes=1 \
   --node_rank=0 \
-  --nproc_per_node=6 \
+  --nproc_per_node=8 \
   train/pretrain_unified_navit_gduf.py \
   --dataset_config_file ./data/configs/unigendet_GDUF.yaml \
   --model_path ./pretrained/bagel_7b_mot \
