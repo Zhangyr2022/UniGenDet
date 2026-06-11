@@ -80,6 +80,8 @@ The repository provides [demo.py](./demo.py) for two interactive modes:
 
 ### Quick examples
 
+**Download the model from HuggingFace [https://huggingface.co/Yanran21/UniGenDet](https://huggingface.co/Yanran21/UniGenDet) or ModelScope [https://www.modelscope.cn/models/YanranZhang/UniGenDet/summary](https://www.modelscope.cn/models/YanranZhang/UniGenDet/summary)**
+
 Parameter notes:
 
 - `--model_path`: directory of the base BAGEL pretrained assets (e.g., `llm_config.json`, `vit_config.json`, `ae.safetensors`, tokenizer files).
