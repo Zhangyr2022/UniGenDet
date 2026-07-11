@@ -5,7 +5,7 @@
 
 <p align="center">
   <b>
-    <a href="https://github.com/Zhangyr2022/">Yanran Zhang</a>,
+    <a href="https://yanran-zhang.github.io/">Yanran Zhang</a>,
     <a href="https://wzzheng.net/#">Wenzhao Zheng</a><sup>†</sup>,
     <a href="https://joeleelyf.github.io/">Yifei Li</a>,
     <a href="https://yuby14.github.io/">Bingyao Yu</a>,
